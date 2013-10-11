@@ -40,7 +40,8 @@ class MoufTwigEnvironment extends \Twig_Environment {
 		$addtionnalOptions = array(
 			// The cache directory is in the temporary directory and reproduces the path to the directory (to avoid cache conflict between apps).
 			'cache' => $cacheDirectory,
-			'auto_reload' => $autoReload
+			'auto_reload' => $autoReload,
+			'debug' => true
 		);
 		
 		$options = array_merge($addtionnalOptions, $options);
@@ -48,6 +49,7 @@ class MoufTwigEnvironment extends \Twig_Environment {
 		parent::__construct($loader, $options);
 		
 		$this->addExtension(new MoufTwigExtension(MoufManager::getMoufManager()));
+		$this->addExtension(new \Twig_Extension_Debug());
 	}
 	
 	/**
