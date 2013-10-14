@@ -81,6 +81,13 @@ class MoufTwigExtension extends Twig_Extension {
 				 */
 				new \Twig_SimpleFunction('l', function($param) {
 					return ROOT_URL . $param;
+				}),
+				
+				/**
+				 * The tourl function will create a link instead of a string
+				 */
+				new \Twig_SimpleFunction('tourl', function($param) {
+					return preg_replace('/http(s)*:\/\/[0-9a-zA-Z\.\:\/\?\&\#\%-=_]+/', '<a href="${0}" target="_blank">${0}</a>', $param);
 				})
 		);
 	}
