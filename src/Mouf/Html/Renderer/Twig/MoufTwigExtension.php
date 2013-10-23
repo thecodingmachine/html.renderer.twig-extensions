@@ -4,6 +4,7 @@ use Twig_Extension;
 use Mouf\MoufManager;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 use Mouf\Utils\Value\ValueInterface;
+use Mouf\MoufException;
 
 /**
  * The Mouf Twig extension provides a number of functions (toHtml, val, ...) to the Twig template
@@ -42,6 +43,8 @@ class MoufTwigExtension extends Twig_Extension {
 					ob_start();
 					if ($param instanceof HtmlElementInterface) {
 						$param->toHtml();
+					} elseif (empty($param)) {
+						throw new MoufException("Empty parameter passed to the toHtml() function in a Twig template.");
 					} else {
 						$moufManager->getInstance($param)->toHtml();
 					}
