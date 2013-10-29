@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Mouf": "src/"
+            "Mouf\\Html\\Renderer\\Twig": "src/"
         }
     },
     "extra": {
