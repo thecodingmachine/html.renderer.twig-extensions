@@ -72,15 +72,15 @@ class MoufTwigExtension extends Twig_Extension {
 				}),
 				
 				/**
-				 * The t function will call the eMsg() method of the string passed in parameter
+				 * The t function will call the iMsgNoEdit() method of the string passed in parameter
 				 */
 				new \Twig_SimpleFunction('t', function() {
 					$args = func_get_args();
-					return call_user_func_array("iMsg", $args);
+					return call_user_func_array("iMsgNoEdit", $args);
 				}),
 				
 				/**
-				 * The l function will create a relative URL : in fact, it simply preprends th ROOT_URL
+				 * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
 				 */
 				new \Twig_SimpleFunction('l', function($param) {
 					return ROOT_URL . $param;
