@@ -4,6 +4,7 @@ namespace Mouf\Html\Renderer\Twig;
 use \Twig_LoaderInterface;
 use \Twig_ExtensionInterface;
 use Mouf\MoufManager;
+use Mouf\Utils\Cache\CacheInterface;
 
 /**
  * The simple class extending the Twig_Environment class whose sole purpose is to make it
@@ -16,7 +17,7 @@ use Mouf\MoufManager;
  * 
  * @author David Negrier <david@mouf-php.com>
  */
-class MoufTwigEnvironment extends \Twig_Environment {
+class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface {
 
 	/**
 	 * 
@@ -34,17 +35,17 @@ class MoufTwigEnvironment extends \Twig_Environment {
 		if ($cacheDirectory) {
 			$cacheDirectory = ROOT_PATH.ltrim($cacheDirectory,'\\/');
 		} else {
-			$cacheDirectory = rtrim(sys_get_temp_dir().'/\\').'/mouftwigtemplatemain_'.str_replace(":", "", ROOT_PATH);
+			$cacheDirectory = rtrim(sys_get_temp_dir(),'/\\').'/mouftwigtemplatemain_'.str_replace(":", "", ROOT_PATH);
 		}
 		
-		$addtionnalOptions = array(
+		$additionnalOptions = array(
 			// The cache directory is in the temporary directory and reproduces the path to the directory (to avoid cache conflict between apps).
 			'cache' => $cacheDirectory,
 			'auto_reload' => $autoReload,
 			'debug' => true
 		);
 		
-		$options = array_merge($addtionnalOptions, $options);
+		$options = array_merge($additionnalOptions, $options);
 		
 		parent::__construct($loader, $options);
 		
@@ -61,5 +62,46 @@ class MoufTwigEnvironment extends \Twig_Environment {
 	public function setExtensions(array $extensions)
 	{
 		parent::setExtensions($extensions);
+	}
+
+	/**
+	 * The get method of the cache is not implemented. The CacheInterface is implemented only to be able to
+	 * delete cache files when the "Purge cache" button is pressed in Mouf UI.
+	 * (non-PHPdoc)
+	 * @see \Mouf\Utils\Cache\CacheInterface::get()
+	 */
+	public function get($key) {
+		throw new \Exception("Unsupported call to 'get' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
+	}
+	
+	/**
+	 * The set method of the cache is not implemented. The CacheInterface is implemented only to be able to
+	 * delete cache files when the "Purge cache" button is pressed in Mouf UI.
+	 * (non-PHPdoc)
+	 * @see \Mouf\Utils\Cache\CacheInterface::set()
+	 */
+	public function set($key, $value, $timeToLive = null) {
+		throw new \Exception("Unsupported call to 'set' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
+	}
+	
+	/**
+	 * The purge method of the cache is not implemented. The CacheInterface is implemented only to be able to
+	 * delete cache files when the "Purge cache" button is pressed in Mouf UI.
+	 * (non-PHPdoc)
+	 * @see \Mouf\Utils\Cache\CacheInterface::purge()
+	 */
+	function purge($key) {
+		throw new \Exception("Unsupported call to 'purge' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Mouf\Utils\Cache\CacheInterface::purgeAll()
+	 */
+	public function purgeAll() {
+		if ($this->cache && file_exists($this->cache)) {
+			$this->clearTemplateCache();
+			$this->clearCacheFiles();
+		}
 	}
 }

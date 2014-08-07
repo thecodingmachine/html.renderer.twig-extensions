@@ -1,42 +1,45 @@
 {
-    "name": "mouf/html.renderer.twig-extensions",
-    "description": "This package contains a set of Twig extensions and utility class to ease the use of Twig templates in Mouf.",
-    "keywords": ["html", "tohtml", "interface", "render"],
-    "homepage": "http://mouf-php.com/packages/mouf/html.renderer.twig-extensions",
-    "type": "mouf-library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "David Négrier",
-            "email": "d.negrier@thecodingmachine.com",
-            "homepage": "http://mouf-php.com"
-        }
-    ],
-    "require": {
-    	"php": ">=5.4.0",
-    	"mouf/html.htmlelement": "~2.0",
-    	"twig/twig": "1.*@stable"
-    },
-    "autoload": {
-        "psr-0": {
-            "Mouf\\Html\\Renderer\\Twig": "src/"
-        }
-    },
-    "extra": {
-	    "mouf": {
-	        "install": [
-	    		{
-	    			"type": "file",
-	    			"file": "src/install.php"
-	    		}
-	    	],
-	    	"doc": [
-	    		{
-	    			"title": "Twig extensions",
-	    			"url": "doc/twig_extensions.md"
-	    		}
-	    		],
-	    	"logo": "logo.png"
-	    }
+	"name" : "mouf/html.renderer.twig-extensions",
+	"description" : "This package contains a set of Twig extensions and utility class to ease the use of Twig templates in Mouf.",
+	"keywords" : [
+		"html",
+		"tohtml",
+		"interface",
+		"render"
+	],
+	"homepage" : "http://mouf-php.com/packages/mouf/html.renderer.twig-extensions",
+	"type" : "mouf-library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "David Négrier",
+			"email" : "d.negrier@thecodingmachine.com",
+			"homepage" : "http://mouf-php.com"
+		}
+	],
+	"require" : {
+		"php" : ">=5.4.0",
+		"mouf/html.htmlelement" : "~2.0",
+		"twig/twig" : "1.*@stable",
+		"mouf/utils.cache.cache-interface" : "~2.0"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Mouf\\Html\\Renderer\\Twig" : "src/"
+		}
+	},
+	"extra" : {
+		"mouf" : {
+			"install" : [{
+					"type" : "file",
+					"file" : "src/install.php"
+				}
+			],
+			"doc" : [{
+					"title" : "Twig extensions",
+					"url" : "doc/twig_extensions.md"
+				}
+			],
+			"logo" : "logo.png"
+		}
 	}
 }
