@@ -48,4 +48,13 @@ class TwigTemplate implements HtmlElementInterface {
 		$context = ValueUtils::val($this->context);
 		echo $this->environment->render($this->template, $context);
 	}
+
+    /**
+     * Same function as toHtml() but we return Html instead of echo it
+     */
+    public function getHtml() {
+        ob_start();
+        $this->toHtml();
+        return ob_get_clean();
+    }
 }
