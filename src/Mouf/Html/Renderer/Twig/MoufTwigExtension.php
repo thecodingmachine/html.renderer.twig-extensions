@@ -91,6 +91,16 @@ class MoufTwigExtension extends Twig_Extension {
 				 */
 				new \Twig_SimpleFunction('tourl', function($param) {
 					return preg_replace('/http(s)*:\/\/[0-9a-zA-Z\.\:\/\?\&\#\%-=_]+/', '<a href="${0}" target="_blank">${0}</a>', $param);
+				}),
+				
+				/**
+				 * The Cookies function will return the $_COOKIE list
+				 */
+				new \Twig_SimpleFunction('cookies', function($key) {
+					if(isset($_COOKIE[$key])) {
+						return $_COOKIE[$key];
+					}
+					return null;
 				})
 		);
 	}
