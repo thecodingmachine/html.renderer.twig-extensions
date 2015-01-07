@@ -73,6 +73,7 @@ class MoufTwigExtension extends Twig_Extension {
 				
 				/**
 				 * The t function will call the iMsgNoEdit() method of the string passed in parameter
+				 * @deprecated Needs to be moved into a FINE dependent package.
 				 */
 				new \Twig_SimpleFunction('t', function() {
 					$args = func_get_args();
@@ -81,6 +82,7 @@ class MoufTwigExtension extends Twig_Extension {
 				
 				/**
 				 * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
+				 * @deprecated
 				 */
 				new \Twig_SimpleFunction('l', function($param) {
 					return ROOT_URL . $param;
@@ -88,20 +90,14 @@ class MoufTwigExtension extends Twig_Extension {
 				
 				/**
 				 * The tourl function will create a link instead of a string
+				 * @deprecated
 				 */
 				new \Twig_SimpleFunction('tourl', function($param) {
 					return preg_replace('/http(s)*:\/\/[0-9a-zA-Z\.\:\/\?\&\#\%-=_]+/', '<a href="${0}" target="_blank">${0}</a>', $param);
-				}),
-				
-				/**
-				 * The Cookies function will return the $_COOKIE list
-				 */
-				new \Twig_SimpleFunction('cookies', function($key) {
-					if(isset($_COOKIE[$key])) {
-						return $_COOKIE[$key];
-					}
-					return null;
 				})
+				
+				// Note to Mouf developers: DO NOT add functions here if a specific project requires it.
+				// INSTEAD, create another Twig_Extension, and reference it into the MoufTwigEnvironment instance.
 		);
 	}
 }
