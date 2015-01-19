@@ -41,13 +41,20 @@ class MoufTwigExtension extends Twig_Extension {
 				 */
 				new \Twig_SimpleFunction('toHtml', function($param) use ($moufManager) {
 					ob_start();
+
+                    if ($param == null) {
+                        throw new MoufException("Empty parameter passed to the toHtml() function in a Twig template.");
+                    }
+
+                    if (is_string($param)) {
+                        $param = $moufManager->get($param);
+                    }
+
 					if ($param instanceof HtmlElementInterface) {
 						$param->toHtml();
-					} elseif (empty($param)) {
-						throw new MoufException("Empty parameter passed to the toHtml() function in a Twig template.");
 					} else {
-						$moufManager->getInstance($param)->toHtml();
-					}
+                        throw new MoufException("Parameter passed to the toHtml() function in a Twig template must be an object implementing HtmlElementInterface or the name of a Mouf instance implementing HtmlElementInterface.");
+                    }
 					return ob_get_clean();
 				}, array('is_safe' => array('html'))),
 				
