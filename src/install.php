@@ -9,7 +9,6 @@ require_once __DIR__."/../../../autoload.php";
 
 use Mouf\Actions\InstallUtils;
 use Mouf\MoufManager;
-use Mouf\Html\Renderer\ChainableRendererInterface;
 
 // Let's init Mouf
 InstallUtils::init(InstallUtils::$INIT_APP);
@@ -24,4 +23,3 @@ $moufManager->rewriteMouf();
 
 // Finally, let's continue the install
 InstallUtils::continueInstall();
-?>
