@@ -1,3 +1,9 @@
+[![Latest Stable Version](https://poser.pugx.org/mouf/html.renderer.twig-extensions/v/stable.svg)](https://packagist.org/packages/mouf/html.renderer.twig-extensions)
+[![Total Downloads](https://poser.pugx.org/mouf/html.renderer.twig-extensions/downloads.svg)](https://packagist.org/packages/mouf/html.renderer.twig-extensions)
+[![Latest Unstable Version](https://poser.pugx.org/mouf/html.renderer.twig-extensions/v/unstable.svg)](https://packagist.org/packages/mouf/html.renderer.twig-extensions)
+[![License](https://poser.pugx.org/mouf/html.renderer.twig-extensions/license.svg)](https://packagist.org/packages/mouf/html.renderer.twig-extensions)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thecodingmachine/html.renderer.twig-extensions/badges/quality-score.png?b=1.0)](https://scrutinizer-ci.com/g/thecodingmachine/html.renderer.twig-extensions/?branch=1.0)
+
 What is this package?
 =====================
 
