@@ -31,8 +31,8 @@
 	"extra" : {
 		"mouf" : {
 			"install" : [{
-					"type" : "file",
-					"file" : "src/install.php"
+			  		"type" : "class",
+			  		"class" : "Mouf\\Html\\Renderer\\Twig\\MoufTwigEnvironmentInstaller"
 				}
 			],
 			"doc" : [{
