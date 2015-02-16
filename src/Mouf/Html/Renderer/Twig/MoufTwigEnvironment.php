@@ -51,8 +51,6 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
 
         parent::__construct($loader, $options);
 
-        $this->addExtension(new MoufTwigExtension(MoufManager::getMoufManager()));
-        $this->addExtension(new \Twig_Extension_Debug());
     }
 
     /**
