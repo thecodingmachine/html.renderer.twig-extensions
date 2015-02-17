@@ -3,7 +3,6 @@ namespace Mouf\Html\Renderer\Twig;
 
 use Twig_LoaderInterface;
 use Twig_ExtensionInterface;
-use Mouf\MoufManager;
 use Mouf\Utils\Cache\CacheInterface;
 
 /**
@@ -24,7 +23,7 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
      *
      * @param Twig_LoaderInterface  $loader         The loader used by Twig. If null, the Twig_Loader_Filesystem is used, and is relative to ROOT_PATH.
      * @param array<string, string> $options
-     * @param string                $cacheDirectory Relative to ROOT_PATH, unless null. In this case will be generated in the sys temporary directory.
+     * @param string|null           $cacheDirectory Relative to ROOT_PATH, unless null. In this case will be generated in the sys temporary directory.
      * @param bool                  $autoReload     Whether we should autoreload the environment or not.
      */
     public function __construct(Twig_LoaderInterface $loader = null, $options = array(),
@@ -34,23 +33,29 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
             $loader = new \Twig_Loader_Filesystem(ROOT_PATH);
         }
 
-        if ($cacheDirectory) {
+        if (!empty($cacheDirectory)) {
             $cacheDirectory = ROOT_PATH.ltrim($cacheDirectory, '\\/');
         } else {
-            $cacheDirectory = rtrim(sys_get_temp_dir(), '/\\').'/mouftwigtemplatemain_'.str_replace(":", "", ROOT_PATH);
+            // If we are running on a Unix environment, let's prepend the cache with the user id of the PHP process.
+            // This way, we can avoid rights conflicts.
+            if (function_exists('posix_geteuid')) {
+                $posixGetuid = posix_geteuid();
+            } else {
+                $posixGetuid = '';
+            }
+            $cacheDirectory = rtrim(sys_get_temp_dir(), '/\\').'/mouftwigtemplatemain_'.$posixGetuid.str_replace(":", "", ROOT_PATH);
         }
 
-        $additionnalOptions = array(
+        $additionalOptions = array(
             // The cache directory is in the temporary directory and reproduces the path to the directory (to avoid cache conflict between apps).
             'cache' => $cacheDirectory,
             'auto_reload' => $autoReload,
             'debug' => true,
         );
 
-        $options = array_merge($additionnalOptions, $options);
+        $options = array_merge($additionalOptions, $options);
 
         parent::__construct($loader, $options);
-
     }
 
     /**
@@ -103,7 +108,7 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
      */
     public function purgeAll()
     {
-        if ($this->cache && file_exists($this->cache)) {
+        if (!empty($this->cache) && file_exists($this->cache)) {
             $this->clearTemplateCache();
             $this->clearCacheFiles();
         }
