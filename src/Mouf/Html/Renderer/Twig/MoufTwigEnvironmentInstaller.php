@@ -25,7 +25,7 @@ class MoufTwigEnvironmentInstaller implements PackageInstallerInterface
         $twigExtension = InstallUtils::getOrCreateInstance('moufTwigExtension', 'Mouf\\Html\\Renderer\\Twig\\MoufTwigExtension', $moufManager);
         $twigExtension->getConstructorArgumentProperty('container')->setValue('return $container;')->setOrigin('php');
 
-        $debugExtension = InstallUtils::getOrCreateInstance('twigDebugExtension', 'Twig_Extension_Debug');
+        $debugExtension = InstallUtils::getOrCreateInstance('twigDebugExtension', 'Twig_Extension_Debug', $moufManager);
 
         $twigEnvironment->getSetterProperty('setExtensions')->setValue([$twigExtension, $debugExtension]);
 
