@@ -113,4 +113,15 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
             $this->clearCacheFiles();
         }
     }
+
+    /**
+     * Override writeCacheFile in order to add umask.
+     */
+    protected function writeCacheFile($file, $content)
+    {
+        $oldmask = umask(0);
+        parent::writeCacheFile($file, $content);
+        umask($oldmask);
+    }
+    
 }
