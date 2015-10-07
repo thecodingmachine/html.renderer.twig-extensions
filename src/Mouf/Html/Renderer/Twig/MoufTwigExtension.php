@@ -58,7 +58,7 @@ class MoufTwigExtension extends Twig_Extension
                 /**
                  * The t function will call the iMsgNoEdit() method of the string passed in parameter
                  */
-                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true)),
+                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter'),
 
                 /**
                  * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
@@ -123,8 +123,9 @@ class MoufTwigExtension extends Twig_Extension
         return $this->container->get($param)->val();
     }
 
-    public function translate(array $args = array())
+    public function translate($text, array $args = array())
     {
+        array_unshift($args, $text);
         return call_user_func_array('iMsgNoEdit', $args);
     }
 
