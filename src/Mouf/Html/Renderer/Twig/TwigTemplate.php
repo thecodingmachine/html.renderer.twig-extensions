@@ -20,7 +20,6 @@ class TwigTemplate implements HtmlElementInterface
     private $context;
 
     /**
-     *
      * @param \Twig_Environment                                            $environment The twig environment.
      * @param string                                                       $template    The name of the twig file to be rendered. This is relative to the directory defined by the Twig_Environment (usually ROOT_PATH).
      * @param array<string, ValueInterface>|MapValueInterface|array|object $context     The context passed to the template
@@ -50,17 +49,16 @@ class TwigTemplate implements HtmlElementInterface
     public function toHtml()
     {
         $context = ValueUtils::val($this->context);
-        echo $this->environment->render($this->template, $context);
+        $this->environment->display($this->template, $context);
     }
 
     /**
      * Same function as toHtml() but we return Html instead of echo it
+     *
+     * @return string
      */
     public function getHtml()
     {
-        ob_start();
-        $this->toHtml();
-
-        return ob_get_clean();
+        return $this->environment->render($this->template, ValueUtils::val($this->context));
     }
 }
