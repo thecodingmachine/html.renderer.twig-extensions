@@ -85,7 +85,7 @@ class MoufTwigExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('t', [$this, 'translateFilter'], array('is_variadic' => true)),
+            new \Twig_SimpleFilter('t', [$this, 'translate'], array('is_variadic' => true)),
         );
     }
 
@@ -124,12 +124,6 @@ class MoufTwigExtension extends Twig_Extension
     }
 
     public function translate($text, array $args = array())
-    {
-        array_unshift($args, $text);
-        return call_user_func_array('iMsgNoEdit', $args);
-    }
-
-    public function translateFilter($text, array $args = array())
     {
         array_unshift($args, $text);
         return call_user_func_array('iMsgNoEdit', $args);
