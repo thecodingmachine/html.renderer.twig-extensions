@@ -63,17 +63,17 @@ class MoufTwigExtension extends Twig_Extension
                 /**
                  * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
                  */
-                new \Twig_SimpleFunction('l', [$this, 'createRelativeLink']),
+                new \Twig_SimpleFunction('l', [$this, 'createRelativeLink'], array('deprecated' => true)),
 
                 /**
                  * The tourl function will create a link instead of a string
                  */
-                new \Twig_SimpleFunction('tourl', [$this, 'toUrl']),
+                new \Twig_SimpleFunction('tourl', [$this, 'toUrl'], array('deprecated' => true)),
 
                 /**
                  * The Cookies function will return the $_COOKIE list
                  */
-                new \Twig_SimpleFunction('cookies', [$this, 'getCookie']),
+                new \Twig_SimpleFunction('cookies', [$this, 'getCookie'], array('deprecated' => true)),
         );
     }
 
