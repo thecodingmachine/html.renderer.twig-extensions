@@ -58,22 +58,34 @@ class MoufTwigExtension extends Twig_Extension
                 /**
                  * The t function will call the iMsgNoEdit() method of the string passed in parameter
                  */
-                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true)),
+                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter')),
 
                 /**
                  * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
                  */
-                new \Twig_SimpleFunction('l', [$this, 'createRelativeLink']),
+                new \Twig_SimpleFunction('l', [$this, 'createRelativeLink'], array('deprecated' => true)),
 
                 /**
                  * The tourl function will create a link instead of a string
                  */
-                new \Twig_SimpleFunction('tourl', [$this, 'toUrl']),
+                new \Twig_SimpleFunction('tourl', [$this, 'toUrl'], array('deprecated' => true)),
 
                 /**
                  * The Cookies function will return the $_COOKIE list
                  */
-                new \Twig_SimpleFunction('cookies', [$this, 'getCookie']),
+                new \Twig_SimpleFunction('cookies', [$this, 'getCookie'], array('deprecated' => true)),
+        );
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     *
+     * @return array An array of filters
+     */
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('t', [$this, 'translate'], array('is_variadic' => true)),
         );
     }
 
@@ -111,8 +123,9 @@ class MoufTwigExtension extends Twig_Extension
         return $this->container->get($param)->val();
     }
 
-    public function translate(array $args = array())
+    public function translate($text, array $args = array())
     {
+        array_unshift($args, $text);
         return call_user_func_array('iMsgNoEdit', $args);
     }
 
