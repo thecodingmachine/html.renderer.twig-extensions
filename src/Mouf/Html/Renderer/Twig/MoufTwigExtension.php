@@ -58,7 +58,7 @@ class MoufTwigExtension extends Twig_Extension
                 /**
                  * The t function will call the iMsgNoEdit() method of the string passed in parameter
                  */
-                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter'),
+                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter')),
 
                 /**
                  * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
