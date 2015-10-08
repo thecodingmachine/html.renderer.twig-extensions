@@ -18,46 +18,7 @@ use Mouf\Utils\Cache\CacheInterface;
  */
 class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
 {
-
-    /**
-     *
-     * @param Twig_LoaderInterface  $loader         The loader used by Twig. If null, the Twig_Loader_Filesystem is used, and is relative to ROOT_PATH.
-     * @param array<string, string> $options
-     * @param string|null           $cacheDirectory Relative to ROOT_PATH, unless null. In this case will be generated in the sys temporary directory.
-     * @param bool                  $autoReload     Whether we should autoreload the environment or not.
-     */
-    public function __construct(Twig_LoaderInterface $loader = null, $options = array(),
-            $cacheDirectory = null, $autoReload = true)
-    {
-        if ($loader == null) {
-            $loader = new \Twig_Loader_Filesystem(ROOT_PATH);
-        }
-
-        if (!empty($cacheDirectory)) {
-            $cacheDirectory = ROOT_PATH.ltrim($cacheDirectory, '\\/');
-        } else {
-            // If we are running on a Unix environment, let's prepend the cache with the user id of the PHP process.
-            // This way, we can avoid rights conflicts.
-            if (function_exists('posix_geteuid')) {
-                $posixGetuid = posix_geteuid();
-            } else {
-                $posixGetuid = '';
-            }
-            $cacheDirectory = rtrim(sys_get_temp_dir(), '/\\').'/mouftwigtemplatemain_'.$posixGetuid.str_replace(":", "", ROOT_PATH);
-        }
-
-        $additionalOptions = array(
-            // The cache directory is in the temporary directory and reproduces the path to the directory (to avoid cache conflict between apps).
-            'cache' => $cacheDirectory,
-            'auto_reload' => $autoReload,
-            'debug' => true,
-        );
-
-        $options = array_merge($additionalOptions, $options);
-
-        parent::__construct($loader, $options);
-    }
-
+    
     /**
      * Registers an array of extensions.
      * Note: the sole purpose of this function is to overload the @param annotation.
@@ -119,15 +80,5 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
             }
         }
     }
-    
-    /**
-     * Override writeCacheFile in order to add umask.
-     */
-    protected function writeCacheFile($file, $content)
-    {
-        $oldmask = umask(0);
-        parent::writeCacheFile($file, $content);
-        umask($oldmask);
-    }
-    
+
 }
