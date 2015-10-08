@@ -29,26 +29,7 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
     public function __construct(Twig_LoaderInterface $loader = null, $options = array(),
             $cacheDirectory = null, $autoReload = true)
     {
-        if ($loader == null) {
-            $loader = new \Twig_Loader_Filesystem(ROOT_PATH);
-        }
-
-        if (!empty($cacheDirectory)) {
-            $cacheDirectory = ROOT_PATH.ltrim($cacheDirectory, '\\/');
-        } else {
-            // If we are running on a Unix environment, let's prepend the cache with the user id of the PHP process.
-            // This way, we can avoid rights conflicts.
-            if (function_exists('posix_geteuid')) {
-                $posixGetuid = posix_geteuid();
-            } else {
-                $posixGetuid = '';
-            }
-            $cacheDirectory = rtrim(sys_get_temp_dir(), '/\\').'/mouftwigtemplatemain_'.$posixGetuid.str_replace(":", "", ROOT_PATH);
-        }
-
         $additionalOptions = array(
-            // The cache directory is in the temporary directory and reproduces the path to the directory (to avoid cache conflict between apps).
-            'cache' => $cacheDirectory,
             'auto_reload' => $autoReload,
             'debug' => true,
         );
@@ -119,15 +100,5 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
             }
         }
     }
-    
-    /**
-     * Override writeCacheFile in order to add umask.
-     */
-    protected function writeCacheFile($file, $content)
-    {
-        $oldmask = umask(0);
-        parent::writeCacheFile($file, $content);
-        umask($oldmask);
-    }
-    
+
 }
