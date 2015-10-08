@@ -18,27 +18,7 @@ use Mouf\Utils\Cache\CacheInterface;
  */
 class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
 {
-
-    /**
-     *
-     * @param Twig_LoaderInterface  $loader         The loader used by Twig. If null, the Twig_Loader_Filesystem is used, and is relative to ROOT_PATH.
-     * @param array<string, string> $options
-     * @param string|null           $cacheDirectory Relative to ROOT_PATH, unless null. In this case will be generated in the sys temporary directory.
-     * @param bool                  $autoReload     Whether we should autoreload the environment or not.
-     */
-    public function __construct(Twig_LoaderInterface $loader = null, $options = array(),
-            $cacheDirectory = null, $autoReload = true)
-    {
-        $additionalOptions = array(
-            'auto_reload' => $autoReload,
-            'debug' => true,
-        );
-
-        $options = array_merge($additionalOptions, $options);
-
-        parent::__construct($loader, $options);
-    }
-
+    
     /**
      * Registers an array of extensions.
      * Note: the sole purpose of this function is to overload the @param annotation.
