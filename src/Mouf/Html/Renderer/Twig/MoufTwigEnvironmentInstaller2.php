@@ -55,6 +55,7 @@ if (function_exists(\'posix_geteuid\')) {
     $posixGetuid = \'\';
 }
 return rtrim(sys_get_temp_dir(), \'/\\\\\').\'/mouftwigtemplatemain_\'.$posixGetuid.str_replace(":", "", ROOT_PATH);');
+            $twigCacheFileSystem->getConstructorArgumentProperty('directory')->setOrigin("php");
         }
 
         // Let's rewrite the MoufComponents.php file to save the component
