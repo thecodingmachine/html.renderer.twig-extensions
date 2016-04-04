@@ -4,6 +4,7 @@ namespace Mouf\Html\Renderer\Twig;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 use Mouf\Utils\Value\MapValueInterface;
 use Mouf\Utils\Value\ValueUtils;
+use Mouf\Utils\Value\ValueInterface;
 
 /**
  * This class represents a Twig template that can be rendered, using the toHtml() method.
