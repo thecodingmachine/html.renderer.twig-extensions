@@ -72,18 +72,6 @@ class MoufTwigExtension extends Twig_Extension
         );
     }
 
-    /**
-     * Returns a list of filters to add to the existing list.
-     *
-     * @return array An array of filters
-     */
-    public function getFilters()
-    {
-        return array(
-            new \Twig_SimpleFilter('t', [$this, 'translate'], array('is_variadic' => true)),
-        );
-    }
-
     public function toHtml($param)
     {
         if ($param == null) {
