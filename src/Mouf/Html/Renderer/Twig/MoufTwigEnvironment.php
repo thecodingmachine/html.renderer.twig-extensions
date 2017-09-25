@@ -69,16 +69,18 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
      */
     public function purgeAll()
     {
-        if (!empty($this->cache)) {
-            if ($this->cache instanceof \Twig_CacheInterface || file_exists($this->cache)) {
-                try {
-                    $this->clearTemplateCache();
-                    $this->clearCacheFiles();
-                } catch (\UnexpectedValueException $e) {
-                    // The directory might not exist. This is not a problem.
+        // Twig 1 only
+        if (method_exists($this, 'clearTemplateCache')) {
+            if (!empty($this->cache)) {
+                if ($this->cache instanceof \Twig_CacheInterface || file_exists($this->cache)) {
+                    try {
+                        $this->clearTemplateCache();
+                        $this->clearCacheFiles();
+                    } catch (\UnexpectedValueException $e) {
+                        // The directory might not exist. This is not a problem.
+                    }
                 }
             }
         }
     }
-
 }

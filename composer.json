@@ -19,7 +19,7 @@
 	"require" : {
 		"php" : ">=5.4.0",
 		"mouf/html.htmlelement" : "~2.0",
-		"twig/twig" : "~1.19",
+		"twig/twig" : "~1.19 | ^2",
 		"mouf/utils.cache.cache-interface" : "~2.0",
 	    "container-interop/container-interop" : "~1.0",
 	    "mouf/utils.constants.debug": "~1.0"
