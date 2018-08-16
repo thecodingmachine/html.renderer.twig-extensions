@@ -1,7 +1,7 @@
 <?php
 namespace Mouf\Html\Renderer\Twig;
 
-use Twig_LoaderInterface;
+use Mouf\Utils\Cache\Purge\PurgeableInterface;
 use Twig_ExtensionInterface;
 use Mouf\Utils\Cache\CacheInterface;
 
@@ -16,7 +16,7 @@ use Mouf\Utils\Cache\CacheInterface;
  *
  * @author David Negrier <david@mouf-php.com>
  */
-class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
+class MoufTwigEnvironment extends \Twig_Environment implements PurgeableInterface
 {
     
     /**
@@ -31,43 +31,10 @@ class MoufTwigEnvironment extends \Twig_Environment implements CacheInterface
     }
 
     /**
-     * The get method of the cache is not implemented. The CacheInterface is implemented only to be able to
-     * delete cache files when the "Purge cache" button is pressed in Mouf UI.
-     * (non-PHPdoc)
-     * @see \Mouf\Utils\Cache\CacheInterface::get()
-     */
-    public function get($key)
-    {
-        throw new \Exception("Unsupported call to 'get' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
-    }
-
-    /**
-     * The set method of the cache is not implemented. The CacheInterface is implemented only to be able to
-     * delete cache files when the "Purge cache" button is pressed in Mouf UI.
-     * (non-PHPdoc)
-     * @see \Mouf\Utils\Cache\CacheInterface::set()
-     */
-    public function set($key, $value, $timeToLive = null)
-    {
-        throw new \Exception("Unsupported call to 'set' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
-    }
-
-    /**
-     * The purge method of the cache is not implemented. The CacheInterface is implemented only to be able to
-     * delete cache files when the "Purge cache" button is pressed in Mouf UI.
-     * (non-PHPdoc)
-     * @see \Mouf\Utils\Cache\CacheInterface::purge()
-     */
-    public function purge($key)
-    {
-        throw new \Exception("Unsupported call to 'purge' method. MoufTwigEnvironment implements only the 'purgeAll' method of the CacheInterface");
-    }
-
-    /**
      * (non-PHPdoc)
      * @see \Mouf\Utils\Cache\CacheInterface::purgeAll()
      */
-    public function purgeAll()
+    public function purge()
     {
         // Twig 1 only
         if (method_exists($this, 'clearTemplateCache')) {
