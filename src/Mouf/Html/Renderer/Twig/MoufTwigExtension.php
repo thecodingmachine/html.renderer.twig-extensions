@@ -1,7 +1,7 @@
 <?php
 namespace Mouf\Html\Renderer\Twig;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Twig_Extension;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
 use Mouf\Utils\Value\ValueInterface;

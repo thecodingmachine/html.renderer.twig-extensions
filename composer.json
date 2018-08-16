@@ -21,7 +21,7 @@
 		"mouf/html.htmlelement" : "~2.0",
 		"twig/twig" : "~1.19 | ^2",
 		"mouf/utils.cache.cache-interface" : "~2.0",
-	    "container-interop/container-interop" : "~1.0",
+	    "psr/container" : "^1",
 	    "mouf/utils.constants.debug": "~1.0"
 	},
 	"autoload" : {
