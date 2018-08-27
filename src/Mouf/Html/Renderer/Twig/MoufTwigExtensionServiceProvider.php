@@ -19,7 +19,7 @@ class MoufTwigExtensionServiceProvider extends ServiceProvider
     }
 
     /**
-     * @Extension(name=\Twig_Environment::class)
+     * @Extension()
      */
     public static function extendTwig(\Twig_Environment $twig, MoufTwigExtension $extension): \Twig_Environment
     {
