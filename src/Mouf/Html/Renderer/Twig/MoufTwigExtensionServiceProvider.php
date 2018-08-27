@@ -3,7 +3,6 @@
 
 namespace Mouf\Html\Renderer\Twig;
 
-
 use Psr\Container\ContainerInterface;
 use TheCodingMachine\Funky\Annotations\Extension;
 use TheCodingMachine\Funky\Annotations\Factory;

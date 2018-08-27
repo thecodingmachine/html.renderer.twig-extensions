@@ -9,7 +9,7 @@ use Mouf\Utils\Value\ValueInterface;
 /**
  * This class represents a Twig template that can be rendered, using the toHtml() method.
  * See Twig documentation for more information about Twig templates:
- * 	http://twig.sensiolabs.org
+ *  http://twig.sensiolabs.org
  *
  * @author David Negrier <david@mouf-php.com>
  */
