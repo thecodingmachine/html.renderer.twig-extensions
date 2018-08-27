@@ -1,6 +1,7 @@
 <?php
 namespace Mouf\Html\Renderer\Twig;
 
+use Mouf\Html\HtmlElement\HtmlBlock;
 use Psr\Container\ContainerInterface;
 use Twig_Extension;
 use Mouf\Html\HtmlElement\HtmlElementInterface;
@@ -17,19 +18,15 @@ class MoufTwigExtension extends Twig_Extension
 {
 
     private $container;
+    /**
+     * @var string
+     */
+    private $rootUrl;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, string $rootUrl)
     {
         $this->container = $container;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see Twig_ExtensionInterface::getName()
-     */
-    public function getName()
-    {
-        return 'mouf';
+        $this->rootUrl = $rootUrl;
     }
 
     public function getFunctions()
@@ -47,7 +44,7 @@ class MoufTwigExtension extends Twig_Extension
                  * The mouf Twig function takes an instance name and returns the instance object.
                  * You would usually use it in conjunction with the toHtml function.
                  */
-                new \Twig_SimpleFunction('mouf', [$this, 'getInstance']),
+                new \Twig_SimpleFunction('container', [$this, 'getInstance']),
 
                 /**
                  * The val function will call the val() method of the object passed in parameter
@@ -56,43 +53,21 @@ class MoufTwigExtension extends Twig_Extension
                 new \Twig_SimpleFunction('val', [$this, 'getValue']),
 
                 /**
-                 * The t function will call the iMsgNoEdit() method of the string passed in parameter
+                 * The absolute_url function will create an absolute URL from a relative URL. The relative URL is relative to the ROOT_URL.
+                 * If an absolute URL is passed, the same URL is returned.
                  */
-                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter')),
-
-                /**
-                 * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
-                 */
-                new \Twig_SimpleFunction('l', [$this, 'createRelativeLink'], array('deprecated' => true)),
-
-                /**
-                 * The tourl function will create a link instead of a string
-                 */
-                new \Twig_SimpleFunction('tourl', [$this, 'toUrl'], array('deprecated' => true)),
-
-                /**
-                 * The Cookies function will return the $_COOKIE list
-                 */
-                new \Twig_SimpleFunction('cookies', [$this, 'getCookie'], array('deprecated' => true)),
+                new \Twig_SimpleFunction('absolute_url', [$this, 'createUrl']),
         );
     }
 
     /**
-     * Returns a list of filters to add to the existing list.
-     *
-     * @return array An array of filters
+     * @param mixed $param
+     * @return string
      */
-    public function getFilters()
-    {
-        return array(
-            new \Twig_SimpleFilter('t', [$this, 'translate'], array('is_variadic' => true)),
-        );
-    }
-
-    public function toHtml($param)
+    public function toHtml($param): string
     {
         if ($param == null) {
-            throw new MoufException("Empty parameter passed to the toHtml() function in a Twig template.");
+            throw new \InvalidArgumentException("Empty parameter passed to the toHtml() function in a Twig template.");
         }
 
         if (is_string($param)) {
@@ -100,7 +75,7 @@ class MoufTwigExtension extends Twig_Extension
         }
 
         if (!$param instanceof HtmlElementInterface) {
-            throw new MoufException("Parameter passed to the toHtml() function in a Twig template must be an object implementing HtmlElementInterface or the name of a Mouf instance implementing HtmlElementInterface.");
+            throw new \InvalidArgumentException("Parameter passed to the toHtml() function in a Twig template must be an object implementing HtmlElementInterface or the name of a Mouf instance implementing HtmlElementInterface.");
         }
 
         ob_start();
@@ -109,11 +84,19 @@ class MoufTwigExtension extends Twig_Extension
         return ob_get_clean();
     }
 
-    public function getInstance($instanceName)
+    /**
+     * @param string $instanceName
+     * @return mixed
+     */
+    public function getInstance(string $instanceName)
     {
         return $this->container->get($instanceName);
     }
 
+    /**
+     * @param mixed $param
+     * @return mixed
+     */
     public function getValue($param)
     {
         if ($param instanceof ValueInterface) {
@@ -123,28 +106,17 @@ class MoufTwigExtension extends Twig_Extension
         return $this->container->get($param)->val();
     }
 
-    public function translate($text, array $args = array())
+    public function createUrl(string $url): string
     {
-        array_unshift($args, $text);
-        return call_user_func_array('iMsgNoEdit', $args);
-    }
-
-    public function createRelativeLink($param)
-    {
-        return ROOT_URL.$param;
-    }
-
-    public function toUrl($param)
-    {
-        return preg_replace('/http(s)*:\/\/[0-9a-zA-Z\.\:\/\?\&\#\%-=_]+/', '<a href="${0}" target="_blank">${0}</a>', $param);
-    }
-
-    public function getCookie($key)
-    {
-        if (isset($_COOKIE[$key])) {
-            return $_COOKIE[$key];
+        if (strpos($url, "/") === 0
+            || strpos($url, "javascript:") === 0
+            || strpos($url, "http://") === 0
+            || strpos($url, "https://") === 0
+            || strpos($url, "?") === 0
+            || strpos($url, "#") === 0) {
+            return $url;
         }
 
-        return;
+        return $this->rootUrl.$url;
     }
 }

@@ -25,7 +25,7 @@ class TwigTemplate implements HtmlElementInterface
      * @param string                                                       $template    The name of the twig file to be rendered. This is relative to the directory defined by the Twig_Environment (usually ROOT_PATH).
      * @param array<string, ValueInterface>|MapValueInterface|array|object $context     The context passed to the template
      */
-    public function __construct(\Twig_Environment $environment, $template, $context = array())
+    public function __construct(\Twig_Environment $environment, string $template, $context = array())
     {
         $this->environment = $environment;
         $this->template = $template;
@@ -38,7 +38,7 @@ class TwigTemplate implements HtmlElementInterface
      *
      * @param array<string, ValueInterface>|MapValueInterface|array|object $context
      */
-    public function setContext($context)
+    public function setContext($context): void
     {
         $this->context = $context;
     }
@@ -58,7 +58,7 @@ class TwigTemplate implements HtmlElementInterface
      *
      * @return string
      */
-    public function getHtml()
+    public function getHtml(): string
     {
         return $this->environment->render($this->template, ValueUtils::val($this->context));
     }
