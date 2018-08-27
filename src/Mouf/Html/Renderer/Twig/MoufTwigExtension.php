@@ -56,11 +56,6 @@ class MoufTwigExtension extends Twig_Extension
                 new \Twig_SimpleFunction('val', [$this, 'getValue']),
 
                 /**
-                 * The t function will call the iMsgNoEdit() method of the string passed in parameter
-                 */
-                new \Twig_SimpleFunction('t', [$this, 'translate'], array('is_variadic' => true, 'deprecated' => true, 'alternative' => '"t" filter')),
-
-                /**
                  * The l function will create a relative URL : in fact, it simply preprends the ROOT_URL
                  */
                 new \Twig_SimpleFunction('l', [$this, 'createRelativeLink'], array('deprecated' => true)),
@@ -74,18 +69,6 @@ class MoufTwigExtension extends Twig_Extension
                  * The Cookies function will return the $_COOKIE list
                  */
                 new \Twig_SimpleFunction('cookies', [$this, 'getCookie'], array('deprecated' => true)),
-        );
-    }
-
-    /**
-     * Returns a list of filters to add to the existing list.
-     *
-     * @return array An array of filters
-     */
-    public function getFilters()
-    {
-        return array(
-            new \Twig_SimpleFilter('t', [$this, 'translate'], array('is_variadic' => true)),
         );
     }
 
